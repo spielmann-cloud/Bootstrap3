@@ -83,6 +83,17 @@ function check(){
     }
     }
   }
+  
+    for(ind1 = 0; ind1+3< 7; ind1++){
+    for(ind2 = 5; ind2-3 >= 0; ind2--){
+      if(arr[ind2][ind1] == aim && arr[ind2-1][ind1+1] == aim && arr[ind2-2][ind1+2] == aim && arr[ind2-3][ind1+3] == aim)
+      {
+      console.log("Winner");
+      restart();
+    }
+    }
+  }
+  
   function restart(){
     winner = whoIsNext ? first : second;
     $(".container").slideUp(3000);
