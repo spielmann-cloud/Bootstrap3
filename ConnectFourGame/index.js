@@ -10,6 +10,8 @@ for (var i1 = 0; i1 < 6; i1++) {
     arr[i1][i2] = 0;
   }
 }
+
+
 nextTurn();
 
 buttons = $("button");
@@ -36,7 +38,7 @@ function invokeMe(i) {
       changes+=7;
     }
     buttons.eq(changes - 7).css("background-color", color);
-    arr[Math.floor((changes - 7) / 7)][(changes - 7) % 7] = whoIsNext ? 1 : -1;
+    arr[Math.floor((changes - 7) / 7)][(changes - 7) % 7] = whoIsNext ? "X" : "O";
     //check if won
     check();
 
@@ -55,13 +57,16 @@ function nextTurn() {
 }
 
 function check(){
-  aim = whoIsNext ? 1 : -1;
+  var ifDraw = true;
+  var hasWinner = false;
+  aim = whoIsNext ? "X" : "O";
   for(ind1 = 0; ind1 < 6; ind1++){
     for(ind2 = 0; ind2+3 < 7; ind2++){
       if(arr[ind1][ind2] == aim && arr[ind1][ind2+1] == aim && arr[ind1][ind2+2] == aim && arr[ind1][ind2+3] == aim)
       {
       console.log("Winner");
       restart();
+      hasWinner = true;
     }
     }
   }
@@ -71,6 +76,7 @@ function check(){
       {
       console.log("Winner");
       restart();
+      hasWinner = true;
     }
     }
   }
@@ -80,24 +86,46 @@ function check(){
       {
       console.log("Winner");
       restart();
+      hasWinner = true;
     }
     }
   }
-  
-    for(ind1 = 0; ind1+3< 7; ind1++){
+  for(ind1 = 0; ind1+3< 7; ind1++){
     for(ind2 = 5; ind2-3 >= 0; ind2--){
       if(arr[ind2][ind1] == aim && arr[ind2-1][ind1+1] == aim && arr[ind2-2][ind1+2] == aim && arr[ind2-3][ind1+3] == aim)
       {
       console.log("Winner");
       restart();
+      hasWinner = true;
     }
     }
   }
-  
+
+
+  if(!hasWinner) {
+  for(ind1 = 0; ind1 < 6; ind1++){
+    for(ind2 = 0; ind2 < 7; ind2++){
+      if(arr[ind1][ind2] === 0){
+        ifDraw = false;
+      }
+    }
+  }
+  if(ifDraw) {
+$(".container").slideUp(3000);
+    setTimeout(function() {
+      $(".containerNew").html("<h1>It is draw!</h1><h2>Resfresh your page to start again</h2>");
+
+    }, 3200);
+      setInterval("changeHeaderColor()",500);
+
+  }
+}
+
+
   function restart(){
     winner = whoIsNext ? first : second;
-    $(".container").slideUp(3000);
-    // $(".container").fadeOut(1000).html("<h1>Winner is "+ winner +"</h1>");
+    console.log(arr);
+  $(".container").slideUp(3000);
     setTimeout(function() {
       $(".containerNew").html("<h1>Winner is "+ winner +"</h1><h2>Resfresh your page to start again</h2>");
 
